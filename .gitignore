@@ -1,0 +1,6 @@
+credentials.csv
+*.csv
+*.pem
+*.ppk
+*.zip
+temp/
