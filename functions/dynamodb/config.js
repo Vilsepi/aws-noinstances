@@ -1,5 +1,5 @@
 var config = {};
 
-config.tableName = 'foobar';
+config.tableName = '{{ stack_base_name }}';
 
 module.exports = config;

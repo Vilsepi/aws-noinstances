@@ -1,0 +1,34 @@
+---
+
+# To run: ansible-playbook -i localhost, deploy.yml
+
+- hosts: 127.0.0.1
+  connection: local
+  sudo: false
+  gather_facts: false
+  vars_files:
+    - ["vars/secrets.yml", "vars/secrets_example.yml"]
+    - "vars/vars.yml"
+  tasks:
+
+  - name: Deploy base
+    cloudformation:
+      stack_name: "noinstances-{{ stack_base_name }}-base"
+      state: "present"
+      region: "{{ aws_region }}"
+      template: "cloudformation-templates/base.template"
+      template_parameters:
+        DeploymentName: "{{ stack_base_name }}"
+    register: base_stack
+  - debug: msg="{{ base_stack.stack_outputs }}"
+
+  - name: Deploy functions
+    cloudformation:
+      stack_name: "noinstances-{{ stack_base_name }}-code"
+      state: "present"
+      region: "{{ aws_region }}"
+      template: "cloudformation-templates/code.template"
+      template_parameters:
+        DeploymentName: "{{ stack_base_name }}"
+    register: code_stack
+  - debug: msg="{{ code_stack.stack_outputs }}"

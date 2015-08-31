@@ -1,0 +1,7 @@
+---
+
+aws_region: eu-west-1
+
+stack_base_name: foobar
+api_gateway_role: foobar
+function_name: foobar

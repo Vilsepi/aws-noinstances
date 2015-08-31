@@ -16,7 +16,11 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 ## Getting started
 
-?? -> Profit!
+    cd deploy
+    git clone https://github.com/awslabs/aws-apigateway-swagger-importer
+    cp vars/secrets_example.yml vars/secrets.yml
+    . ./export_env_variables.sh
+    ansible-playbook -i localhost, deploy.yml
 
 ### Prerequisites
 

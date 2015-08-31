@@ -1,31 +1,21 @@
 var doc = require('dynamodb-doc');
 var dynamo = new doc.DynamoDB();
-
-//var config = require('./config');
-var config = {};
-config.tableName = 'foobar';
-
+var config = require('./config');
 
 exports.handler = function(event, context) {
   console.log('Received request:', JSON.stringify(event, null, 2));
 
   var operation = event.operation;
-  var tableName = config.tableName;
+  var params = {"TableName": config.tableName};
 
   switch (event.operation) {
     case 'create':
-      params = {
-        "TableName": tableName,
-        "Item": event.payload
-      };
+      params.Item = event.payload;
       params.Item.id = Math.random().toString(36).slice(2);
       dynamo.putItem(params, context.done);
       break;
     case 'read':
-      params = {
-        "TableName": tableName,
-        "Key": {"id": event.id}
-      };
+      params.Key.id = event.id;
       dynamo.getItem(params, context.done);
       break;
     case 'update':

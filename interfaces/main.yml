@@ -1,0 +1,27 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: No Instances API (Swagger)
+  schemes:
+    - http
+  consumes:
+    - application/json
+  produces:
+    - application/json
+paths:
+  /nosql:
+    get:
+      responses:
+        200:
+          description: A response
+      x-amazon-apigateway-integration:
+        type: aws
+        uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ function_name }}/invocations
+        credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ api_gateway_role }}
+        httpMethod: POST
+        responses:
+          default:
+            statusCode: "200"
+            responseTemplates:
+              application/json: "Hello"
