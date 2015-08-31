@@ -4,5 +4,6 @@ credentials.csv
 *.ppk
 *.zip
 temp/
+build/
 aws-apigateway-swagger-importer
 secrets.yml

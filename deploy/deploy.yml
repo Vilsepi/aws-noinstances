@@ -1,6 +1,6 @@
 ---
 
-# To run: ansible-playbook -i localhost, deploy.yml
+# To run: ansible-playbook -v -i localhost, deploy.yml
 
 - hosts: 127.0.0.1
   connection: local
@@ -11,24 +11,41 @@
     - "vars/vars.yml"
   tasks:
 
-  - name: Deploy base
+  - name: Create S3 artifactory bucket
+    s3: bucket={{ s3_artifactory_bucket }} mode=create region={{ aws_region }}
+
+  - name: Create database and other base resources
     cloudformation:
-      stack_name: "noinstances-{{ stack_base_name }}-base"
+      stack_name: "{{ deployment_id }}-base"
       state: "present"
       region: "{{ aws_region }}"
       template: "cloudformation-templates/base.template"
       template_parameters:
-        DeploymentName: "{{ stack_base_name }}"
+        DeploymentName: "{{ deployment_id }}"
     register: base_stack
   - debug: msg="{{ base_stack.stack_outputs }}"
 
-  - name: Deploy functions
+  - name: Clean build directory
+    file: path={{ build_path }} state=absent
+
+  - name: Create build directory
+    file: path={{ build_path }} state=directory mode=0755
+
+  - name: Package Lambda functions
+    command: zip -FSr {{ build_path }}/{{ item }}.zip ../functions/{{ item }} -i *
+    with_items: lambdas
+
+  - name: Sync packages to S3 artifactory
+    command: aws s3 cp {{ build_path }} s3://{{ s3_artifactory_bucket }}/artifacts/ --recursive --region {{ aws_region }}
+
+  - name: Create Lambda functions
     cloudformation:
-      stack_name: "noinstances-{{ stack_base_name }}-code"
-      state: "present"
+      stack_name: "{{ deployment_id }}-{{ item }}"
+      state: present
       region: "{{ aws_region }}"
-      template: "cloudformation-templates/code.template"
+      template: cloudformation-templates/code.template
       template_parameters:
-        DeploymentName: "{{ stack_base_name }}"
-    register: code_stack
-  - debug: msg="{{ code_stack.stack_outputs }}"
+        DeploymentName: "{{ deployment_id }}"
+        ArtifactoryBucket: "{{ s3_artifactory_bucket }}"
+        ArtifactoryKey: "artifacts/{{ item }}.zip"
+    with_items: lambdas

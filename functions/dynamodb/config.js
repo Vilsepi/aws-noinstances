@@ -1,5 +1,5 @@
 var config = {};
 
-config.tableName = '{{ stack_base_name }}';
+config.tableName = '{{ deployment_id }}';
 
 module.exports = config;

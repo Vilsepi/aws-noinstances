@@ -1,7 +1,11 @@
 ---
 
 aws_region: eu-west-1
+deployment_id: noinstances
+lambdas:
+  - dynamodb
 
-stack_base_name: foobar
 api_gateway_role: foobar
 function_name: foobar
+
+build_path: build

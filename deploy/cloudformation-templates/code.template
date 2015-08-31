@@ -5,6 +5,14 @@
     "DeploymentName": {
       "Description": "Unique name for the deployed application",
       "Type": "String"
+    },
+    "ArtifactoryBucket": {
+      "Description": "The S3 bucket where the Lambda functions are located",
+      "Type": "String"
+    },
+    "ArtifactoryKey": {
+      "Description": "S3 Key for the Lambda function package",
+      "Type": "String"
     }
   },
   "Resources": {
@@ -30,6 +38,21 @@
             ]
           }
         }]
+      }
+    },
+    "LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {"Ref": "ArtifactoryBucket"},
+          "S3Key": {"Ref": "ArtifactoryKey"}
+        },
+        "Description": "No instances",
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {"Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
+        "Runtime": "nodejs",
+        "Timeout": 3
       }
     }
   }
