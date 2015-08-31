@@ -1,6 +1,6 @@
 # AWS with no instances
 
-> Look Ma, no instances!
+> Look Mom, No Instances!
 
 Cloud is fun, but sometimes it is a bit tedious to manage all the instances and networks. Even PaaS offerings fail to abstract away the infrastructure, and instead offer nodes and whatnot. What if you could deploy code to a major cloud platform without ever seeing any notion of virtual machines or load balancers? Well now you can!
 
@@ -20,12 +20,9 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 ### Prerequisites
 
+- [Ansible](https://github.com/ansible/ansible)
 - [AWS CLI](https://github.com/aws/aws-cli) (aws-apigateway-swagger-importer requires it)
 - [aws-apigateway-swagger-importer](https://github.com/awslabs/aws-apigateway-swagger-importer)
-
-Optional, but extremely recommended:
-
-- [Ansible](https://github.com/ansible/ansible)
 
 ### Defining APIs
 

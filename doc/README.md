@@ -40,3 +40,10 @@
 - Optional caching: 0.5 GB $0.020 per hour, 6.1 GB $0.200 per hour
 - Example: 5 million calls, 3 kB responses, no caching = $18.79 per month
 
+
+# Things to consider
+
+- Local development and testing?
+- Consider several URL paths and their HTTP Verbs. How many Lambda functions?
+- How much things should be done in API Gateway (schemas validation)?
+- Is the API cache worth it?
