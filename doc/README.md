@@ -29,9 +29,12 @@
 - Example 1: 128 MB, 30 million executions, 200 ms duration = $11.63 per month
 - Example 2: 512 MB, 3 million executions, 1000 ms duration = $18.74 per month
 
+## Lambda experiences
+
+- Updating lambdas via cloudformation seems really slow. Maybe just wrap AWS CLI tools instead?
+
 
 # API Gateway
-
 
 ## API [pricing](https://aws.amazon.com/api-gateway/pricing/)
 
