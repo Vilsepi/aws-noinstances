@@ -33,6 +33,9 @@
 
 - Updating lambdas via cloudformation seems really slow. Maybe just wrap AWS CLI tools instead?
 
+# DynamoDB
+
+- Stream changes to Lambda
 
 # API Gateway
 
