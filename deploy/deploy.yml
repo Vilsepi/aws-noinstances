@@ -51,3 +51,17 @@
         ArtifactoryBucket: "{{ s3_artifactory_bucket }}"
         ArtifactoryKey: "artifacts/{{ item }}.zip"
     with_items: lambdas
+    register: lambda_stacks
+
+  - name: Lambda names
+    debug: msg="Lambda {{ item.item }} {{ item.stack_outputs.LambdaName }}"
+    with_items: lambda_stacks.results
+
+  # TODO: Only works with one lambda function for now
+  - name: Reconfigure lambda to use the latest code
+    command: >
+      aws lambda update-function-code 
+      --function-name {{ lambda_stacks.results[0].stack_outputs.LambdaName }} 
+      --s3-bucket {{ s3_artifactory_bucket }} 
+      --s3-key artifacts/{{ item }}.zip
+    with_items: lambdas

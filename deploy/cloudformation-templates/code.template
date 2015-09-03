@@ -36,7 +36,7 @@
               {
                 "Effect": "Allow",
                 "Action": "dynamodb:*",
-                "Resource": "*"
+                "Resource": "arn:aws:dynamodb:*"
               },
               {
                 "Effect": "Allow",
@@ -72,5 +72,8 @@
         "Timeout": 3
       }
     }
+  },
+  "Outputs": {
+    "LambdaName": {"Value": {"Ref": "LambdaFunction"}}
   }
 }
