@@ -32,7 +32,9 @@
     file: path={{ build_path }} state=directory mode=0755
 
   - name: Package Lambda functions
-    command: zip -FSr {{ build_path }}/{{ item }}.zip ../functions/{{ item }} -i *
+    command: zip -FSr ../../deploy/{{ build_path }}/{{ item }}.zip . -i *
+    args:
+      chdir: ../functions/{{ item }}
     with_items: lambdas
 
   - name: Sync packages to S3 artifactory
