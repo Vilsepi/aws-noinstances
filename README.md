@@ -11,8 +11,8 @@ Amazon Web Services has published a set of new services:
 
 With these, we will have the compute infrastructure for our REST server. Add some storage services and we are all done:
 
-- [Simple Storage Service](http://aws.amazon.com/s3/)
 - [DynamoDB](http://aws.amazon.com/dynamodb/)
+- [Simple Storage Service](http://aws.amazon.com/s3/)
 
 ## Getting started
 
@@ -25,9 +25,9 @@ With these, we will have the compute infrastructure for our REST server. Add som
 ### Prerequisites
 
 - [Ansible](https://github.com/ansible/ansible)
-- [AWS CLI](https://github.com/aws/aws-cli) (aws-apigateway-swagger-importer requires it)
+- [AWS CLI](https://github.com/aws/aws-cli)
 - [aws-apigateway-swagger-importer](https://github.com/awslabs/aws-apigateway-swagger-importer)
 
 ### Defining APIs
 
-Unfortunately, as of August 30th 2015, CloudFormation and Boto do not support API Gateway. However AWS Labs has published an [import tool](https://github.com/awslabs/aws-apigateway-swagger-importer) that allows us to define APIs with [Swagger](http://swagger.io/). Swagger in turn provides an [editor](http://editor.swagger.io/#/) for creating API specifications.
+Unfortunately, as of September 5th 2015, CloudFormation and Boto do not support API Gateway (see [thread](https://forums.aws.amazon.com/thread.jspa?threadID=192530) and [issue](https://github.com/boto/botocore/issues/607)). However AWS Labs has published an [import tool](https://github.com/awslabs/aws-apigateway-swagger-importer) that allows us to define APIs with [Swagger](http://swagger.io/). Swagger in turn provides an [editor](http://editor.swagger.io/#/) for creating API specifications.
