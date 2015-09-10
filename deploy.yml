@@ -29,12 +29,15 @@
     tags:
       - base
 
-  # Lambda functions
-  
-  - name: Create S3 artifactory bucket
-    s3: bucket={{ s3_artifactory_bucket }} mode=create region={{ aws_region }}
+  - name: Create S3 buckets
+    s3: bucket={{ item }} mode=create region={{ aws_region }}
+    with_items:
+      - "{{ s3_artifactory_bucket }}"
+      - "{{ s3_data_bucket }}"
     tags:
       - base
+
+  # Lambda functions
 
   - name: Clean common build directory
     file: path={{ build_path }} state=absent
