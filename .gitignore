@@ -9,3 +9,4 @@ aws-apigateway-swagger-importer
 secrets.yml
 test.yml
 config.js
+callback_plugins/
