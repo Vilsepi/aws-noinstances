@@ -22,12 +22,19 @@
       template_parameters:
         DeploymentName: "{{ deployment_id }}"
     register: base_stack
+    tags:
+      - base
+
   - debug: msg="{{ base_stack.stack_outputs }}"
+    tags:
+      - base
 
   # Lambda functions
   
   - name: Create S3 artifactory bucket
     s3: bucket={{ s3_artifactory_bucket }} mode=create region={{ aws_region }}
+    tags:
+      - base
 
   - name: Clean common build directory
     file: path={{ build_path }} state=absent

@@ -33,7 +33,11 @@ Finally export you IAM credentials and run deployment:
 
     cd ../../
     . tools/export_env_variables.sh
-    deploy.sh
+    ./deploy.sh
+
+Once you have deployed the stack, you can shave off a second or two (*yeaaah!*) from deploying the lambda functions with:
+
+    ./deploy.sh --skip-tags=base
 
 ### Prerequisites
 
