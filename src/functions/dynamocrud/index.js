@@ -24,12 +24,9 @@ exports.handler = function(event, context) {
       params.Key = {"id": event.id};
       dynamo.deleteItem(params, context.done);
       break;
-    /*case 'update':
-      dynamo.updateItem(event, context.done);
-      break;*/
-    /*case 'list':
-      dynamo.scan(event, context.done);
-      break;*/
+    case 'scan':
+      dynamo.scan(params, context.done);
+      break;
     case 'echo':
       context.succeed(event);
       break;

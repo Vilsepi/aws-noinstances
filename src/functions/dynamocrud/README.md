@@ -23,6 +23,12 @@ To delete an object:
       "id": "ycwk13a7pzwr8uxr"
     }
 
+To scan the DynamoDB table and get a list of objects:
+
+    {
+      "operation": "scan"
+    }
+
 To test the Lambda function you can echo your input back:
 
     {
