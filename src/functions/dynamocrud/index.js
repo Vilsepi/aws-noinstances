@@ -9,24 +9,27 @@ exports.handler = function(event, context) {
   var params = {"TableName": config.tableName};
 
   switch (event.operation) {
-    case 'create':
+    case 'upsert':
       params.Item = event.payload;
-      params.Item.id = Math.random().toString(36).slice(2);
+      if (!("id" in params.Item)) {
+        params.Item.id = Math.random().toString(36).slice(2);
+      }
       dynamo.putItem(params, context.done);
       break;
-    case 'read':
-      params.Key.id = event.id;
+    case 'getById':
+      params.Key = {"id": event.id};
       dynamo.getItem(params, context.done);
       break;
-    case 'update':
-      dynamo.updateItem(event, context.done);
-      break;
     case 'delete':
-      dynamo.deleteItem(event, context.done);
+      params.Key = {"id": event.id};
+      dynamo.deleteItem(params, context.done);
       break;
-    case 'list':
+    /*case 'update':
+      dynamo.updateItem(event, context.done);
+      break;*/
+    /*case 'list':
       dynamo.scan(event, context.done);
-      break;
+      break;*/
     case 'echo':
       context.succeed(event);
       break;
