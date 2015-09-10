@@ -9,10 +9,6 @@
     "ArtifactoryBucket": {
       "Description": "The S3 bucket where the Lambda functions are located",
       "Type": "String"
-    },
-    "ArtifactoryKey": {
-      "Description": "S3 Key for the Lambda function package",
-      "Type": "String"
     }
   },
   "Resources": {
@@ -57,12 +53,27 @@
         }]
       }
     },
-    "LambdaFunction": {
+    "DynamoFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {"Ref": "ArtifactoryBucket"},
-          "S3Key": {"Ref": "ArtifactoryKey"}
+          "S3Key": "artifacts/dynamocrud.zip"
+        },
+        "Description": "No instances",
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {"Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
+        "Runtime": "nodejs",
+        "Timeout": 3
+      }
+    },
+    "ObjectstoreFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {"Ref": "ArtifactoryBucket"},
+          "S3Key": "artifacts/objectstore.zip"
         },
         "Description": "No instances",
         "Handler": "index.handler",
@@ -74,6 +85,7 @@
     }
   },
   "Outputs": {
-    "LambdaName": {"Value": {"Ref": "LambdaFunction"}}
+    "dynamocrud": {"Value": {"Ref": "DynamoFunction"}},
+    "objectstore": {"Value": {"Ref": "ObjectstoreFunction"}}
   }
 }

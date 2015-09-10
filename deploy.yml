@@ -7,61 +7,65 @@
   sudo: false
   gather_facts: false
   vars_files:
-    - ["vars/secrets.yml", "vars/secrets_example.yml"]
-    - "vars/vars.yml"
+    - "src/config/secrets.yml"
+    - "src/config/vars.yml"
   tasks:
 
-  - name: Create S3 artifactory bucket
-    s3: bucket={{ s3_artifactory_bucket }} mode=create region={{ aws_region }}
+  # Common base resources
 
   - name: Create database and other base resources
     cloudformation:
       stack_name: "{{ deployment_id }}-base"
       state: "present"
       region: "{{ aws_region }}"
-      template: "cloudformation-templates/base.template"
+      template: "src/cloudformation-templates/base.template"
       template_parameters:
         DeploymentName: "{{ deployment_id }}"
     register: base_stack
   - debug: msg="{{ base_stack.stack_outputs }}"
 
-  - name: Clean build directory
+  # Lambda functions
+  
+  - name: Create S3 artifactory bucket
+    s3: bucket={{ s3_artifactory_bucket }} mode=create region={{ aws_region }}
+
+  - name: Clean common build directory
     file: path={{ build_path }} state=absent
 
-  - name: Create build directory
+  - name: Create common build directory
     file: path={{ build_path }} state=directory mode=0755
 
+  - name: Configure function
+    template: src=src/functions/{{ item.key }}/config.js.j2 dest=src/functions/{{ item.key }}/config.js mode=0644
+    with_dict: functions
+
   - name: Package Lambda functions
-    command: zip -FSr ../../deploy/{{ build_path }}/{{ item }}.zip . -i *
+    command: zip -FSr ../../../{{ build_path }}/{{ item.key }}.zip . -i *
     args:
-      chdir: ../functions/{{ item }}
-    with_items: lambdas
+      chdir: src/functions/{{ item.key }}
+    with_dict: functions
 
   - name: Sync packages to S3 artifactory
     command: aws s3 cp {{ build_path }} s3://{{ s3_artifactory_bucket }}/artifacts/ --recursive --region {{ aws_region }}
 
   - name: Create Lambda functions
     cloudformation:
-      stack_name: "{{ deployment_id }}-{{ item }}"
+      stack_name: "{{ deployment_id }}-lambdas"
       state: present
       region: "{{ aws_region }}"
-      template: cloudformation-templates/code.template
+      template: src/cloudformation-templates/functions.template
       template_parameters:
         DeploymentName: "{{ deployment_id }}"
         ArtifactoryBucket: "{{ s3_artifactory_bucket }}"
-        ArtifactoryKey: "artifacts/{{ item }}.zip"
-    with_items: lambdas
-    register: lambda_stacks
+    register: lambda_stack
 
-  - name: Lambda names
-    debug: msg="Lambda {{ item.item }} {{ item.stack_outputs.LambdaName }}"
-    with_items: lambda_stacks.results
+  - name: Lambda function ARNs
+    debug: msg="{{ lambda_stack.stack_outputs }}"
 
-  # TODO: Only works with one lambda function for now
-  - name: Reconfigure lambda to use the latest code
+  - name: Reconfigure functions to use the latest code
     command: >
       aws lambda update-function-code 
-      --function-name {{ lambda_stacks.results[0].stack_outputs.LambdaName }} 
+      --function-name {{ lambda_stack.stack_outputs.get(item.key) }}
       --s3-bucket {{ s3_artifactory_bucket }} 
-      --s3-key artifacts/{{ item }}.zip
-    with_items: lambdas
+      --s3-key artifacts/{{ item.key }}.zip
+    with_dict: functions

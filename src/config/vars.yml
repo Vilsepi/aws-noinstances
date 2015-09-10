@@ -1,0 +1,19 @@
+---
+
+aws_region: eu-west-1
+deployment_id: noinstances
+
+# Lambda functions
+functions:
+  dynamocrud:
+    foo: bar
+  objectstore:
+    baz: babar
+
+# API Gateway interfaces
+interfaces:
+  main:
+    foo: baz
+
+
+build_path: build
