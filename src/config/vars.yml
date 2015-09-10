@@ -16,4 +16,6 @@ interfaces:
     foo: baz
 
 
+# Advanced configuration, no need to edit these
 build_path: build
+swagger_importer_path: tools/aws-apigateway-swagger-importer

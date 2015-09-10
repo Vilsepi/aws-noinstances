@@ -42,21 +42,25 @@
   - name: Clean common build directory
     file: path={{ build_path }} state=absent
 
-  - name: Create common build directory
-    file: path={{ build_path }} state=directory mode=0755
+  - name: Create common build directories
+    file: path={{ item }} state=directory mode=0755
+    with_items:
+      - "{{ build_path }}"
+      - "{{ build_path }}/interfaces"
+      - "{{ build_path }}/artifacts"
 
   - name: Configure function
     template: src=src/functions/{{ item.key }}/config.js.j2 dest=src/functions/{{ item.key }}/config.js mode=0644
     with_dict: functions
 
   - name: Package Lambda functions
-    command: zip -FSr ../../../{{ build_path }}/{{ item.key }}.zip . -i *
+    command: zip -FSr ../../../{{ build_path }}/artifacts/{{ item.key }}.zip . -i *
     args:
       chdir: src/functions/{{ item.key }}
     with_dict: functions
 
   - name: Sync packages to S3 artifactory
-    command: aws s3 cp {{ build_path }} s3://{{ s3_artifactory_bucket }}/artifacts/ --recursive --region {{ aws_region }}
+    command: aws s3 cp {{ build_path }}/artifacts s3://{{ s3_artifactory_bucket }}/artifacts/ --recursive --region {{ aws_region }}
 
   - name: Create Lambda functions
     cloudformation:
@@ -79,3 +83,22 @@
       --s3-bucket {{ s3_artifactory_bucket }} 
       --s3-key artifacts/{{ item.key }}.zip
     with_dict: functions
+
+    # API Gateway interfaces
+
+  - name: Configure interfaces
+    template: src=src/interfaces/{{ item.key }}.yml.j2 dest={{ build_path }}/interfaces/{{ item.key }}.yml mode=0644
+    with_dict: interfaces
+
+  - name: Create interfaces
+    command: >
+      ./aws-api-import.sh
+      --create ../../{{ build_path }}/interfaces/{{ item.key }}.yml
+      --profile {{ aws_cli_profile }}
+    args:
+      chdir: "{{ swagger_importer_path }}"
+    with_dict: interfaces
+    register: importer_output
+
+  - name: Imported output
+    debug: msg="{{ importer_output }}"
