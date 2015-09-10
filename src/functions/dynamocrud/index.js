@@ -6,7 +6,7 @@ exports.handler = function(event, context) {
   console.log('Received request:', JSON.stringify(event, null, 2));
 
   var operation = event.operation;
-  var params = {"TableName": config.tableName};
+  var params = {'TableName': config.tableName};
 
   switch (event.operation) {
     case 'upsert':
@@ -24,7 +24,7 @@ exports.handler = function(event, context) {
       params.Key = {"id": event.id};
       dynamo.deleteItem(params, context.done);
       break;
-    case 'scan':
+    case 'list':
       dynamo.scan(params, context.done);
       break;
     case 'echo':

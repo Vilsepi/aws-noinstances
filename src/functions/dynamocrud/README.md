@@ -1,5 +1,5 @@
 
-Adding new objects:
+Add new objects:
 
     {
       "operation": "upsert",
@@ -16,20 +16,20 @@ Get an object by id:
       "id": "ycwk13a7pzwr8uxr"
     }
 
-To delete an object:
+Delete an object:
 
     {
       "operation": "delete",
       "id": "ycwk13a7pzwr8uxr"
     }
 
-To scan the DynamoDB table and get a list of objects:
+Get a list of objects:
 
     {
-      "operation": "scan"
+      "operation": "list"
     }
 
-To test the Lambda function you can echo your input back:
+Test the Lambda function:
 
     {
       "operation": "echo",
@@ -38,7 +38,7 @@ To test the Lambda function you can echo your input back:
       }
     }
 
-To test the Lambda function you can ping:
+Test the Lambda function:
 
     {
       "operation": "ping"
