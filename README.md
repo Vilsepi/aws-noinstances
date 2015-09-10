@@ -16,17 +16,29 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 ## Getting started
 
-    cd deploy
+First install Swagger Importer under `tools/`:
+
+    cd tools
     git clone https://github.com/awslabs/aws-apigateway-swagger-importer
-    cp vars/secrets_example.yml vars/secrets.yml
-    . ./export_env_variables.sh
-    ansible-playbook -i localhost, deploy.yml
+    cd aws-apigateway-swagger-importer
+    mvn assembly:assembly
+
+Then set some secret variables:
+
+    cd ../../src/config/
+    cp secrets_example.yml secrets.yml
+    nano secrets.yml
+
+Finally export you IAM credentials and run deployment:
+
+    cd ../../
+    . tools/export_env_variables.sh
+    deploy.sh
 
 ### Prerequisites
 
 - [Ansible](https://github.com/ansible/ansible)
 - [AWS CLI](https://github.com/aws/aws-cli)
-- [aws-apigateway-swagger-importer](https://github.com/awslabs/aws-apigateway-swagger-importer)
 
 ### Defining APIs
 
