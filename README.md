@@ -8,8 +8,8 @@ Cloud is fun, but sometimes it is a bit tedious to manage all the instances and 
 
 Amazon Web Services has published a set of new services:
 
-- [Lambda](http://aws.amazon.com/lambda/)
 - [API Gateway](http://aws.amazon.com/api-gateway/)
+- [Lambda](http://aws.amazon.com/lambda/)
 
 With these, we will have the compute infrastructure for our REST server. Add some storage services and we are all done:
 
@@ -18,7 +18,12 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 ## Getting started
 
-First install Swagger Importer under `tools/`:
+**Prerequisites**
+
+- [Ansible](https://github.com/ansible/ansible)
+- [AWS CLI](https://github.com/aws/aws-cli)
+
+First install [Swagger Importer](https://github.com/awslabs/aws-apigateway-swagger-importer) under `tools/`:
 
     cd tools
     git clone https://github.com/awslabs/aws-apigateway-swagger-importer
@@ -40,11 +45,6 @@ Finally export you IAM credentials and run deployment:
 Once you have deployed the stack, you can shave off a second or two (*yeaaah!*) from deploying the lambda functions with:
 
     ./deploy.sh --skip-tags=base
-
-### Prerequisites
-
-- [Ansible](https://github.com/ansible/ansible)
-- [AWS CLI](https://github.com/aws/aws-cli)
 
 ### Defining APIs
 
