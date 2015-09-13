@@ -1,7 +1,7 @@
 ---
 swagger: '2.0'
 info:
-  version: 0.0.1
+  version: 0.0.2
   title: No Instances API (Swagger)
 schemes:
   - https
@@ -12,11 +12,12 @@ produces:
 paths:
   /:
     get:
+      summary: Get data from remote server
       responses:
-        200:
-          description: Root path
-        500:
-          description: Root path failed
+        '200':
+          description: Successful operation
+        '500':
+          description: Failed to retrieve data from remote server
       x-amazon-apigateway-auth:
         type: none
       x-amazon-apigateway-integration:
@@ -24,17 +25,18 @@ paths:
         httpMethod: GET
         uri: https://api.github.com
         responses:
-          200:
-            statusCode: "200"
+          '200':
+            statusCode: '200'
           default:
-            statusCode: "500"
+            statusCode: '500'
             responseTemplates:
               application/json: '{"status": "unexpected response"}'
   /people:
     get:
+      summary: Get a list of people
       responses:
-        200:
-          description: A response
+        '200':
+          description: Successful operation
       x-amazon-apigateway-integration:
         uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
@@ -44,11 +46,12 @@ paths:
           application/json: '{"operation": "list"}'
         responses:
           default:
-            statusCode: "200"
+            statusCode: '200'
     post:
+      summary: Add a new person
       responses:
-        200:
-          description: A response
+        '200':
+          description: Successful operation
       x-amazon-apigateway-integration:
         uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
@@ -56,12 +59,13 @@ paths:
         httpMethod: POST
         responses:
           default:
-            statusCode: "200"
+            statusCode: '200'
   /photos:
     get:
+      summary: Get a list of photos
       responses:
-        200:
-          description: A response
+        '200':
+          description: Successful operation
       x-amazon-apigateway-integration:
         uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.objectstore }}/invocations
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
@@ -69,12 +73,13 @@ paths:
         httpMethod: POST
         responses:
           default:
-            statusCode: "200"
+            statusCode: '200'
   /test/dynamo:
     get:
+      summary: Test invocation of dynamocrud Lambda function
       responses:
-        200:
-          description: A test interface
+        '200':
+          description: Successful operation
       x-amazon-apigateway-integration:
         uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
@@ -84,4 +89,4 @@ paths:
           application/json: '{"operation": "ping", "source": "api_gateway"}'
         responses:
           default:
-            statusCode: "200"
+            statusCode: '200'
