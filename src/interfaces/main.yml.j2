@@ -40,3 +40,20 @@ paths:
             statusCode: "200"
             responseTemplates:
               application/json: "Hello"
+  /test/dynamo:
+    get:
+      responses:
+        200:
+          description: A test interface
+      x-amazon-apigateway-integration:
+        type: aws
+        uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
+        credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        httpMethod: POST
+        requestTemplates:
+          application/json: '{"operation": "ping", "source": "api_gateway"}'
+        responses:
+          default:
+            statusCode: "200"
+            responseTemplates:
+              application/json: "Hello"
