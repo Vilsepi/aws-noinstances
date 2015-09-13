@@ -10,6 +10,26 @@ consumes:
 produces:
   - application/json
 paths:
+  /:
+    get:
+      responses:
+        200:
+          description: Root path
+        500:
+          description: Root path failed
+      x-amazon-apigateway-auth:
+        type: none
+      x-amazon-apigateway-integration:
+        type: http
+        httpMethod: GET
+        uri: https://api.github.com
+        responses:
+          200:
+            statusCode: "200"
+          default:
+            statusCode: "500"
+            responseTemplates:
+              application/json: '{"status": "unexpected response"}'
   /people:
     get:
       responses:
