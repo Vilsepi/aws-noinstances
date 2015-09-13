@@ -103,8 +103,8 @@
     when: importer_mode == "create"
     register: importer_output
 
-  - name: Importer output
-    debug: msg="{{ importer_output.results[0].stdout }}"
+  - name: Print last output line of importer tool
+    debug: msg="{{ importer_output.results[0].stdout_lines[-1:] }}"
     when: importer_mode == "create"
 
   - name: Update interface
