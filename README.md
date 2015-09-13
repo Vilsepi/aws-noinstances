@@ -4,6 +4,8 @@
 
 Cloud is fun, but sometimes it is a bit tedious to manage all the instances and networks. Even PaaS offerings fail to abstract away the infrastructure, and instead offer nodes and whatnot. What if you could deploy code to a major cloud platform without ever seeing any notion of virtual machines or load balancers? Well now you can!
 
+![Amazon Web Services](/doc/images/aws_service_icons.png)
+
 Amazon Web Services has published a set of new services:
 
 - [Lambda](http://aws.amazon.com/lambda/)
