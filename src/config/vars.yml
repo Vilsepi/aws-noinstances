@@ -21,3 +21,6 @@ build_path: build
 swagger_importer_path: tools/aws-apigateway-swagger-importer
 importer_mode: create
 interface_stage: prod
+
+arn_prefix_lambda: "arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:"
+arn_prefix_role: "arn:aws:iam::{{ aws_account_id }}:role/"
