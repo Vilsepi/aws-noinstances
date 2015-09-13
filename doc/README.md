@@ -53,4 +53,16 @@
 - Consider several URL paths and their HTTP Verbs. How many Lambda functions?
 - How much things should be done in API Gateway (schemas validation)?
 - Is the API cache worth it?
+- How to respond from API Gateway without a backend call?
 - [JAWS](https://github.com/jaws-framework/JAWS) and [fluct](https://github.com/r7kamura/fluct)
+
+## Under development
+
+- AWS CLI tools lack support for API Gateway
+- CloudFormation lacks support for API Gateway
+- boto and Ansible lack support for Lambda and API Gateway
+- Ansible and AWS CLI tools should have an easy way to both upload and update Lambda sources
+
+# References
+
+[Build and Manage Your APIs with Amazon API Gateway](http://www.slideshare.net/AmazonWebServices/build-and-manage-your-apis-with-amazon-api-gateway)
