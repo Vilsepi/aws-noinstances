@@ -20,3 +20,4 @@ interfaces:
 build_path: build
 swagger_importer_path: tools/aws-apigateway-swagger-importer
 importer_mode: create
+interface_stage: prod
