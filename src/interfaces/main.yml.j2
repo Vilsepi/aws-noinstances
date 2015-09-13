@@ -40,6 +40,8 @@ paths:
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
         type: aws
         httpMethod: POST
+        requestTemplates:
+          application/json: '{"operation": "list"}'
         responses:
           default:
             statusCode: "200"
