@@ -93,12 +93,32 @@
   - name: Create interfaces
     command: >
       ./aws-api-import.sh
-      --create ../../{{ build_path }}/interfaces/{{ item.key }}.yml
       --profile {{ aws_cli_profile }}
+      --create 
+      --deploy {{ interface_stage }}
+      ../../{{ build_path }}/interfaces/{{ item.key }}.yml
     args:
       chdir: "{{ swagger_importer_path }}"
     with_dict: interfaces
+    when: importer_mode == "create"
     register: importer_output
 
-  - name: Imported output
+  - name: Importer output
+    debug: msg="{{ importer_output.results[0].stdout }}"
+    when: importer_mode == "create"
+
+  - name: Update interface
+    command: >
+      ./aws-api-import.sh
+      --profile {{ aws_cli_profile }}
+      --update {{ interface_id }}
+      --deploy {{ interface_stage }}
+      ../../{{ build_path }}/interfaces/{{ interface_name }}.yml
+    args:
+      chdir: "{{ swagger_importer_path }}"
+    when: importer_mode == "update"
+    register: importer_output
+
+  - name: Importer output
     debug: msg="{{ importer_output }}"
+    when: importer_mode == "update"
