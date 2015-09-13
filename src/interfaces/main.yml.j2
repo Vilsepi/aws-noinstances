@@ -3,12 +3,12 @@ swagger: '2.0'
 info:
   version: 0.0.1
   title: No Instances API (Swagger)
-  schemes:
-    - http
-  consumes:
-    - application/json
-  produces:
-    - application/json
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
 paths:
   /people:
     get:
@@ -16,39 +16,47 @@ paths:
         200:
           description: A response
       x-amazon-apigateway-integration:
-        type: aws
         uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
         httpMethod: POST
         responses:
           default:
             statusCode: "200"
-            responseTemplates:
-              application/json: "Hello"
+    post:
+      responses:
+        200:
+          description: A response
+      x-amazon-apigateway-integration:
+        uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
+        credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
+        httpMethod: POST
+        responses:
+          default:
+            statusCode: "200"
   /photos:
     get:
       responses:
         200:
           description: A response
       x-amazon-apigateway-integration:
-        type: aws
         uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ lambda_stack.stack_outputs.objectstore }}/invocations
         credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
         httpMethod: POST
         responses:
           default:
             statusCode: "200"
-            responseTemplates:
-              application/json: "Hello"
   /test/dynamo:
     get:
       responses:
         200:
           description: A test interface
       x-amazon-apigateway-integration:
-        type: aws
         uri: arn:aws:apigateway:{{ aws_region }}:lambda:path/2015-03-31/functions/arn:aws:lambda:{{ aws_region }}:{{ aws_account_id }}:function:{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: arn:aws:iam::{{ aws_account_id }}:role/{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
         httpMethod: POST
         requestTemplates:
           application/json: '{"operation": "ping", "source": "api_gateway"}'
