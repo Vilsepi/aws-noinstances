@@ -53,3 +53,4 @@
 - Consider several URL paths and their HTTP Verbs. How many Lambda functions?
 - How much things should be done in API Gateway (schemas validation)?
 - Is the API cache worth it?
+- [JAWS](https://github.com/jaws-framework/JAWS) and [fluct](https://github.com/r7kamura/fluct)
