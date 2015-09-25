@@ -73,7 +73,7 @@
         ArtifactoryBucket: "{{ s3_artifactory_bucket }}"
     register: lambda_stack
 
-  - name: Lambda function ARNs
+  - name: Print Lambda function ARNs
     debug: msg="{{ lambda_stack.stack_outputs }}"
 
   - name: Reconfigure functions to use the latest code
@@ -103,9 +103,10 @@
     when: importer_mode == "create"
     register: importer_output
 
-  - name: Print last output line of importer tool
-    debug: msg="{{ importer_output.results[0].stdout_lines[-1:] }}"
+  - name: Print API URL (uneducated guess)
+    debug: msg="https://{{ importer_output.results[0].stdout_lines[-1].split()[-4] }}.execute-api.{{ aws_region }}.amazonaws.com/{{ importer_output.results[0].stdout_lines[-1].split()[-1] }}/"
     when: importer_mode == "create"
+    ignore_errors: yes
 
   - name: Update interface
     command: >
@@ -119,6 +120,7 @@
     when: importer_mode == "update"
     register: importer_output
 
-  - name: Importer output
-    debug: msg="{{ importer_output }}"
+  - name: Print API URL (uneducated guess)
+    debug: msg="https://{{ importer_output.stdout_lines[-1].split()[-4] }}.execute-api.{{ aws_region }}.amazonaws.com/{{ importer_output.stdout_lines[-1].split()[-1] }}/"
     when: importer_mode == "update"
+    ignore_errors: yes
