@@ -25,6 +25,6 @@ exports.handler = function(event, context) {
       context.succeed('pong');
       break;
     default:
-      context.fail(new Error('Unrecognized operation "' + event.operation + '"'));
+      context.fail(new Error('Unrecognized operation: ' + event.operation));
   }
 };
