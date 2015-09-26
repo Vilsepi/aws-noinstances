@@ -1,7 +1,7 @@
 ---
 swagger: '2.0'
 info:
-  version: 0.0.3
+  version: 0.0.4
   title: No Instances API {{ ansible_date_time.epoch }}
 schemes:
   - https
@@ -12,19 +12,19 @@ produces:
 paths:
   /:
     get:
-      summary: Static root
+      summary: Static mock
       responses:
         '200':
           description: Successful operation
       x-amazon-apigateway-integration:
-        type: http
-        httpMethod: GET
-        uri: http://amazon.com
+        type: mock
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
         responses:
           default:
             statusCode: '200'
             responseTemplates:
-              application/json: '{"message": "Hello! Try one of the paths.", "paths": ["proxy", "people", "photos", "test/dynamo"]}'
+              application/json: '{"message": "Hello! Try one of the paths.", "paths": ["proxy", "people", "photos", "test/dynamoping", "test/echo"]}'
   /proxy:
     get:
       summary: Get data from remote server
