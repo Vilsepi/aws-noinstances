@@ -50,14 +50,14 @@
       - "{{ build_path }}/artifacts"
 
   - name: Configure function
-    template: src=src/functions/{{ item.key }}/config.js.j2 dest=src/functions/{{ item.key }}/config.js mode=0644
-    with_dict: functions
+    template: src=src/functions/{{ item }}/config.js.j2 dest=src/functions/{{ item }}/config.js mode=0644
+    with_items: functions
 
   - name: Package Lambda functions
-    command: zip -FSr ../../../{{ build_path }}/artifacts/{{ item.key }}.zip . -i *
+    command: zip -FSr ../../../{{ build_path }}/artifacts/{{ item }}.zip . -i *
     args:
-      chdir: src/functions/{{ item.key }}
-    with_dict: functions
+      chdir: src/functions/{{ item }}
+    with_items: functions
 
   - name: Sync packages to S3 artifactory
     command: aws s3 cp {{ build_path }}/artifacts s3://{{ s3_artifactory_bucket }}/artifacts/ --recursive --region {{ aws_region }}
@@ -79,10 +79,10 @@
   - name: Reconfigure functions to use the latest code
     command: >
       aws lambda update-function-code 
-      --function-name {{ lambda_stack.stack_outputs.get(item.key) }}
+      --function-name {{ lambda_stack.stack_outputs.get(item) }}
       --s3-bucket {{ s3_artifactory_bucket }} 
-      --s3-key artifacts/{{ item.key }}.zip
-    with_dict: functions
+      --s3-key artifacts/{{ item }}.zip
+    with_items: functions
 
   # Lambda DynamoDB Stream handler setup
 
@@ -117,8 +117,8 @@
   # API Gateway interfaces
 
   - name: Configure interfaces
-    template: src=src/interfaces/{{ item.key }}.yml.j2 dest={{ build_path }}/interfaces/{{ item.key }}.yml mode=0644
-    with_dict: interfaces
+    template: src=src/interfaces/{{ item }}.yml.j2 dest={{ build_path }}/interfaces/{{ item }}.yml mode=0644
+    with_items: interfaces
 
   - name: Create interfaces
     command: >
@@ -126,10 +126,10 @@
       --profile {{ aws_cli_profile }}
       --create 
       --deploy {{ interface_stage }}
-      ../../{{ build_path }}/interfaces/{{ item.key }}.yml
+      ../../{{ build_path }}/interfaces/{{ item }}.yml
     args:
       chdir: "{{ swagger_importer_path }}"
-    with_dict: interfaces
+    with_items: interfaces
     when: importer_mode == "create"
     register: importer_output
 
