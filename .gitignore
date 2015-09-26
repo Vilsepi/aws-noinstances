@@ -8,5 +8,6 @@ build/
 aws-apigateway-swagger-importer
 secrets.yml
 test.yml
+test-ansible-parsing.yml
 config.js
 callback_plugins/

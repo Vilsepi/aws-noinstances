@@ -10,6 +10,7 @@ consumes:
 produces:
   - application/json
 paths:
+
   /:
     get:
       summary: Static mock
@@ -29,6 +30,7 @@ paths:
                   "message": "Hello! Try one of the paths.",
                   "paths": ["proxy", "people", "photos", "test/dynamoping", "test/echo"]
                 }
+
   /proxy:
     get:
       summary: Get data from remote server
@@ -49,6 +51,7 @@ paths:
             responseTemplates:
               application/json: >
                 {"status": "unexpected response"}
+
   /people:
     get:
       summary: Get a list of people
@@ -79,6 +82,7 @@ paths:
         responses:
           default:
             statusCode: '200'
+
   '/people/{id}':
     get:
       summary: Get person by id
@@ -128,6 +132,7 @@ paths:
             responseTemplates:
               application/json: >
                 {"status": "unexpected response"}
+
   /photos:
     get:
       summary: Get a list of photos
@@ -142,6 +147,7 @@ paths:
         responses:
           default:
             statusCode: '200'
+
   /test/dynamoping:
     get:
       summary: Test invocation of dynamocrud Lambda function
@@ -162,6 +168,7 @@ paths:
         responses:
           default:
             statusCode: '200'
+
   /test/echo:
     get:
       summary: Echo back as much as possible
