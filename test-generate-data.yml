@@ -1,0 +1,20 @@
+---
+
+# To run: ansible-playbook -i localhost, test-generate-data.yml
+
+- hosts: 127.0.0.1
+  connection: local
+  sudo: false
+  vars_files:
+    - "src/config/secrets.yml"
+    - "src/config/vars.yml"
+  vars:
+    table_name: "{{ deployment_id }}"
+  tasks:
+
+  - name: Insert DynamoDB test data
+    command: aws dynamodb put-item --table-name {{ table_name }} --item '{{ item }}'
+    with_items:
+    - '{ "id": {"S": "Zfca98ncFSC" }, "last_login": {"S": "201509261045"}, "user_type":{"S": "admin"} }'
+    - '{ "id": {"S": "Zacwt4mnc9f" }, "last_login": {"S": "201507160024"}, "user_type":{"S": "normal"} }'
+    - '{ "id": {"S": "Zaa87b3cffV" }, "last_login": {"S": "201411092147"}, "user_type":{"S": "normal"} }'
