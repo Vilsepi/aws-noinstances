@@ -1,23 +1,22 @@
 
 # Lambda
 
-- Invocation types: Event (async, no response) and Request-Response (sync, response) http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html
--- API Gateway uses Lambda with RR model
-
-- Also related [Push vs Pull](http://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html)
-
-
 ## Lambda configuration
 
 - name and description
 - runtime (Node.js or Java 8)
-- the code itself
+- the source code itself
 - handler (the entry point in your code)
 - IAM role for execution
 - memory allocated (128-1536 MB)
 - timeout (1-60 seconds)
 
 ## Lambda integration
+
+- Invocation types: Event (async, no response) and Request-Response (sync, response) http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html
+-- API Gateway uses Lambda with RR model
+
+- Also related [Push vs Pull](http://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html)
 
 - Event sources (S3, SNS, DynamoDB, Kinesis, Cognito Sync Trigger, Alexa Skills kit)
 - API Gateway endpoints
@@ -26,8 +25,7 @@
 
 - $0.20 per 1 million requests (first 1 million free per month)
 - $0.00001667 per GB-second based on execution time and memory allocated (400,000 GB-seconds free per month)
-- Example 1: 128 MB, 30 million executions, 200 ms duration = $11.63 per month
-- Example 2: 512 MB, 3 million executions, 1000 ms duration = $18.74 per month
+- Example: 128 MB, 30 million executions, 200 ms duration = $11.63 per month
 
 ## Lambda experiences
 
@@ -38,6 +36,19 @@
 - Stream changes to Lambda
 
 # API Gateway
+
+## API Gateway integration
+
+- Lambda function: Call a Lambda function
+- HTTP Proxy: Call a remote HTTP server
+- AWS Service proxy: Directly call another AWS service
+- Mock integration: Return a mock response
+
+## Data modeling
+
+- [Models and Mapping Templates](http://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html)
+- Schemas use [JSON Schema](http://json-schema.org/)
+- Mapping templates use [Velocity Template Language](https://velocity.apache.org/engine/releases/velocity-1.7/user-guide.html) and [JSONPath](http://goessner.net/articles/JsonPath/)
 
 ## API [pricing](https://aws.amazon.com/api-gateway/pricing/)
 
