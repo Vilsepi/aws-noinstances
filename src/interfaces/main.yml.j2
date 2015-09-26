@@ -1,7 +1,7 @@
 ---
 swagger: '2.0'
 info:
-  version: 0.0.4
+  version: 0.0.5
   title: No Instances API {{ ansible_date_time.epoch }}
 schemes:
   - https
@@ -24,7 +24,11 @@ paths:
           default:
             statusCode: '200'
             responseTemplates:
-              application/json: '{"message": "Hello! Try one of the paths.", "paths": ["proxy", "people", "photos", "test/dynamoping", "test/echo"]}'
+              application/json: >
+                {
+                  "message": "Hello! Try one of the paths.",
+                  "paths": ["proxy", "people", "photos", "test/dynamoping", "test/echo"]
+                }
   /proxy:
     get:
       summary: Get data from remote server
@@ -43,7 +47,8 @@ paths:
           default:
             statusCode: '500'
             responseTemplates:
-              application/json: '{"status": "unexpected response"}'
+              application/json: >
+                {"status": "unexpected response"}
   /people:
     get:
       summary: Get a list of people
@@ -56,7 +61,8 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: '{"operation": "list"}'
+          application/json: >
+            {"operation": "list"}
         responses:
           default:
             statusCode: '200'
@@ -98,7 +104,11 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: "{ \"id\": \"$input.params('id')\", \"operation\": \"getById\" }"
+          application/json: >
+            {
+              "id": "$input.params('id')",
+              "operation": "getById"
+            }
         requestParameters:
           integration.request.path.integrationPathParam: method.request.querystring.id
           integration.request.querystring.integrationQueryParam: method.request.querystring.filter
@@ -106,15 +116,18 @@ paths:
           '200':
             statusCode: '200'
             responseTemplates:
-              application/json: '{"status": "200 yay we found what you were looking for"}'
+              application/json: >
+                {"status": "200 yay we found what you were looking for"}
           '404':
             statusCode: '404'
             responseTemplates:
-              application/json: '{"status": "404 stuff not found"}'
+              application/json: >
+                {"status": "404 stuff not found"}
           default:
             statusCode: '500'
             responseTemplates:
-              application/json: '{"status": "unexpected response"}'
+              application/json: >
+                {"status": "unexpected response"}
   /photos:
     get:
       summary: Get a list of photos
@@ -141,7 +154,11 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: '{"operation": "ping", "source": "api_gateway"}'
+          application/json: >
+            {
+              "operation": "ping",
+              "source": "api_gateway"
+            }
         responses:
           default:
             statusCode: '200'
@@ -157,7 +174,11 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: '{ "requestparameters": "$input.params()" }'
+          application/json: >
+            {
+              "requestparameters": "$input.params()",
+              "requestcontext": "$context.httpMethod"
+            }
         responses:
           default:
             statusCode: '200'
@@ -172,7 +193,11 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: "{ \"requestparameters\": \"$input.params()\", \"requestbody\": $input.json('$') }"
+          application/json: >
+            {
+              "requestparameters": "$input.params()",
+              "requestbody": $input.json("$")
+            }
         responses:
           default:
             statusCode: '200'
@@ -187,7 +212,11 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: '{ "requestparameters": "$input.params()" }'
+          application/json: >
+            {
+              "requestparameters": "$input.params()",
+              "requestbody": $input.json("$")
+            }
         responses:
           default:
             statusCode: '200'
@@ -202,7 +231,10 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: '{ "requestparameters": "$input.params()" }'
+          application/json: >
+            {
+              "requestparameters": "$input.params()"
+            }
         responses:
           default:
             statusCode: '200'
