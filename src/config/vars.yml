@@ -9,6 +9,8 @@ functions:
     foo: bar
   objectstore:
     baz: babar
+  echo:
+    foo: bar
 
 # API Gateway interfaces
 interfaces:

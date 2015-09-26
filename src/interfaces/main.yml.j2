@@ -2,7 +2,7 @@
 swagger: '2.0'
 info:
   version: 0.0.3
-  title: No Instances API (Swagger)
+  title: No Instances API {{ ansible_date_time.epoch }}
 schemes:
   - https
 consumes:
@@ -88,23 +88,33 @@ paths:
       responses:
         '200':
           description: Successful operation
-        '400':
-          description: Invalid ID supplied
         '404':
           description: Person not found
+        '500':
+          description: Stuff broke
       x-amazon-apigateway-integration:
         uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.dynamocrud }}/invocations
         credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
         type: aws
         httpMethod: POST
         requestTemplates:
-          application/json: "{ \"id\": \"$input.params('id')\", \"operation\": \"echo\" }"
+          application/json: "{ \"id\": \"$input.params('id')\", \"operation\": \"getById\" }"
         requestParameters:
           integration.request.path.integrationPathParam: method.request.querystring.id
           integration.request.querystring.integrationQueryParam: method.request.querystring.filter
         responses:
-          default:
+          '200':
             statusCode: '200'
+            responseTemplates:
+              application/json: '{"status": "200 yay we found what you were looking for"}'
+          '404':
+            statusCode: '404'
+            responseTemplates:
+              application/json: '{"status": "404 stuff not found"}'
+          default:
+            statusCode: '500'
+            responseTemplates:
+              application/json: '{"status": "unexpected response"}'
   /photos:
     get:
       summary: Get a list of photos
@@ -119,7 +129,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-  /test/dynamo:
+  /test/dynamoping:
     get:
       summary: Test invocation of dynamocrud Lambda function
       responses:
@@ -132,6 +142,67 @@ paths:
         httpMethod: POST
         requestTemplates:
           application/json: '{"operation": "ping", "source": "api_gateway"}'
+        responses:
+          default:
+            statusCode: '200'
+  /test/echo:
+    get:
+      summary: Echo back as much as possible
+      responses:
+        '200':
+          description: Successful operation
+      x-amazon-apigateway-integration:
+        uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.echo }}/invocations
+        credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
+        httpMethod: POST
+        requestTemplates:
+          application/json: '{ "requestparameters": "$input.params()" }'
+        responses:
+          default:
+            statusCode: '200'
+    post:
+      summary: Echo back as much as possible
+      responses:
+        '200':
+          description: Successful operation
+      x-amazon-apigateway-integration:
+        uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.echo }}/invocations
+        credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
+        httpMethod: POST
+        requestTemplates:
+          application/json: "{ \"requestparameters\": \"$input.params()\", \"requestbody\": $input.json('$') }"
+        responses:
+          default:
+            statusCode: '200'
+    put:
+      summary: Echo back as much as possible
+      responses:
+        '200':
+          description: Successful operation
+      x-amazon-apigateway-integration:
+        uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.echo }}/invocations
+        credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
+        httpMethod: POST
+        requestTemplates:
+          application/json: '{ "requestparameters": "$input.params()" }'
+        responses:
+          default:
+            statusCode: '200'
+    delete:
+      summary: Echo back as much as possible
+      responses:
+        '200':
+          description: Successful operation
+      x-amazon-apigateway-integration:
+        uri: {{ arn_prefix_lambda }}{{ lambda_stack.stack_outputs.echo }}/invocations
+        credentials: {{ arn_prefix_role }}{{ base_stack.stack_outputs.ApiGatewayRoleName }}
+        type: aws
+        httpMethod: POST
+        requestTemplates:
+          application/json: '{ "requestparameters": "$input.params()" }'
         responses:
           default:
             statusCode: '200'

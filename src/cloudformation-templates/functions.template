@@ -82,10 +82,26 @@
         "Runtime": "nodejs",
         "Timeout": 3
       }
+    },
+    "EchoFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {"Ref": "ArtifactoryBucket"},
+          "S3Key": "artifacts/echo.zip"
+        },
+        "Description": "No instances",
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {"Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
+        "Runtime": "nodejs",
+        "Timeout": 3
+      }
     }
   },
   "Outputs": {
     "dynamocrud": {"Value": {"Ref": "DynamoFunction"}},
-    "objectstore": {"Value": {"Ref": "ObjectstoreFunction"}}
+    "objectstore": {"Value": {"Ref": "ObjectstoreFunction"}},
+    "echo": {"Value": {"Ref": "EchoFunction"}}
   }
 }
