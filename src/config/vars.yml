@@ -11,6 +11,8 @@ functions:
     baz: babar
   echo:
     foo: bar
+  stalker:
+    foo: bar
 
 # API Gateway interfaces
 interfaces:

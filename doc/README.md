@@ -31,10 +31,6 @@
 
 - Updating lambdas via cloudformation seems really slow. Maybe just wrap AWS CLI tools instead?
 
-# DynamoDB
-
-- Stream changes to Lambda
-
 # API Gateway
 
 ## API Gateway integration
@@ -57,6 +53,10 @@
 - Optional caching: 0.5 GB $0.020 per hour, 6.1 GB $0.200 per hour
 - Example: 5 million calls, 3 kB responses, no caching = $18.79 per month
 
+# DynamoDB
+
+- Stream changes to Lambda
+
 
 # Things to consider
 
@@ -73,6 +73,7 @@
 - CloudFormation lacks support for API Gateway
 - boto and Ansible lack support for Lambda and API Gateway
 - Ansible and AWS CLI tools should have an easy way to both upload and update Lambda sources
+- Streams: cannot create a stream and cannot link a lambda to a stream in CloudFormation
 
 # References
 

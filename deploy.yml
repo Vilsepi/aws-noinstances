@@ -25,7 +25,7 @@
     tags:
       - base
 
-  - debug: msg="{{ base_stack.stack_outputs }}"
+  - debug: var=base_stack.stack_outputs
     tags:
       - base
 
@@ -74,7 +74,7 @@
     register: lambda_stack
 
   - name: Print Lambda function ARNs
-    debug: msg="{{ lambda_stack.stack_outputs }}"
+    debug: var=lambda_stack.stack_outputs
 
   - name: Reconfigure functions to use the latest code
     command: >
@@ -84,7 +84,37 @@
       --s3-key artifacts/{{ item.key }}.zip
     with_dict: functions
 
-    # API Gateway interfaces
+  # Lambda DynamoDB Stream handler setup
+
+  - name: Create DynamoDB Stream
+    command: >
+      aws dynamodb update-table 
+      --table-name {{ deployment_id }}
+      --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
+    register: update_stream
+    ignore_errors: yes
+
+  - name: Describe DynamoDB table
+    command: >
+      aws dynamodb describe-table 
+      --table-name {{ deployment_id }}
+    register: stream_output
+
+  - name: Parse DynamoDB configuration
+    set_fact:
+      dynamo_config: "{{ stream_output.stdout|from_json }}"
+
+  - name: Configure Lambda function to read DynamoDB Stream
+    command: >
+      aws lambda create-event-source-mapping 
+      --function-name {{ lambda_stack.stack_outputs.stalker }}
+      --event-source-arn {{ dynamo_config.Table.LatestStreamArn }}
+      --enabled
+      --batch-size 100
+      --starting-position TRIM_HORIZON
+    when: update_stream|success
+
+  # API Gateway interfaces
 
   - name: Configure interfaces
     template: src=src/interfaces/{{ item.key }}.yml.j2 dest={{ build_path }}/interfaces/{{ item.key }}.yml mode=0644
