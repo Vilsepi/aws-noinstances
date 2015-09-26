@@ -174,10 +174,32 @@ paths:
         type: aws
         httpMethod: POST
         requestTemplates:
+          # See: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html
+          #      http://docs.aws.amazon.com/lambda/latest/dg/programming-model.html
           application/json: >
             {
-              "requestparameters": "$input.params()",
-              "requestcontext": "$context.httpMethod"
+              "apiGatewayInput": {
+                "path-params": "$input.params().path",
+                "query-params": "$input.params().querystring",
+                "header-params": "$input.params().header",
+                "header-param-names": "$input.params().header.keySet()",
+                "content-type-value": "$input.params().header.get('Content-Type')"
+              },
+              "apiGatewayContext": {
+                "stage": "$context.stage",
+                "request-id": "$context.requestId",
+                "api-id": "$context.apiId",
+                "resource-path": "$context.resourcePath",
+                "resource-id": "$context.resourceId",
+                "http-method": "$context.httpMethod",
+                "source-ip": "$context.identity.sourceIp",
+                "user-agent": "$context.identity.userAgent",
+                "account-id": "$context.identity.accountId",
+                "api-key": "$context.identity.apiKey",
+                "caller": "$context.identity.caller",
+                "user": "$context.identity.user",
+                "user-arn": "$context.identity.userArn"
+              }
             }
         responses:
           default:

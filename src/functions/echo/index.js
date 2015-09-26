@@ -4,8 +4,9 @@ exports.handler = function(event, context) {
   console.log('Received request:', JSON.stringify(event, null, 2));
 
   var response = {
-    'lambdaevent': event,
-    'lambdacontext': context
+    'lambdaEvent': event,
+    'lambdaContext': context,
+    'lambdaRemainingMillis': context.getRemainingTimeInMillis()
   };
   
   context.succeed(response);
