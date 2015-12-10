@@ -3,15 +3,22 @@
 
 ---
 
+![Lambda](images/Lambda_FullPg_V3-05.png)
+
+##[AWS Lambda](https://aws.amazon.com/lambda/)
+
+Run code without thinking about servers.  
+Pay for only the compute time you consume.
+
+--
+
 ## Configuration
 
 - Name and description
 - Execution environment ([Node.js 0.10, Java 8, Python 2](http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html))
-- Source code
-- Handler (entry point in your code)
+- Source code and entry point (*handler*)
 - IAM execution role
-- Memory allocated (128-1536 MB)
-- Timeout (1-300 seconds)
+- Memory (128-1536 MB) and time (1-300 sec) allocated
 
 --
 
@@ -51,7 +58,7 @@ exports.handler = function(event, context) {
 
 ## [Pricing](https://aws.amazon.com/lambda/pricing/)
 
-- $0.20 per 1 million requests (first 1 million free per month)
+- $0.20 per million requests (first million free per month)
 - $0.00001667 per GB-second based on execution time and memory allocated (400,000 GB-seconds free per month)
 - Example: 128 MB, 30 million executions, 200 ms duration = $11.63 per month
 
@@ -99,7 +106,17 @@ exports.handler = function(event, context) {
 
 ---
 
-# Things to consider
+# Architectures
+
+--
+
+![SquirrelBin](images/squirrelbin-arch.png)
+
+[SquirrelBin: A Serverless Microservice Using AWS Lambda](https://aws.amazon.com/blogs/compute/the-squirrelbin-architecture-a-serverless-microservice-using-aws-lambda/)
+
+---
+
+## Things to consider
 
 - Local development and testing?
 - Consider several URL paths and their HTTP Verbs. How many Lambda functions?
