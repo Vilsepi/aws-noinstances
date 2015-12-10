@@ -102,7 +102,7 @@ exports.handler = function(event, context) {
 
 # DynamoDB
 
-- Stream changes to Lambda
+- [Stream](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) changes to Lambda
 
 ---
 
@@ -122,7 +122,6 @@ exports.handler = function(event, context) {
 - Consider several URL paths and their HTTP Verbs. How many Lambda functions?
 - How much things should be done in API Gateway (schemas validation)?
 - Is the API cache worth it?
-- How to respond from API Gateway without a backend call?
 - [serverless](https://github.com/serverless/serverless) and [fluct](https://github.com/fluct/fluct)
 
 --
