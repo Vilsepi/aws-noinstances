@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lambda</title>
+  <link rel="stylesheet" href="presentation/dependencies/revealjs-3.2.0/reveal.min.css">
+  <link rel="stylesheet" href="presentation/dependencies/revealjs-3.2.0/black.min.css" id="theme">
+  <link rel="stylesheet" href="presentation/ir_black.css">
+  <link rel="stylesheet" href="presentation/gofore.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link'); link.rel = 'stylesheet'; link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'presentation/dependencies/revealjs-3.2.0/pdf.min.css' : 'presentation/dependencies/revealjs-3.2.0/paper.min.css'; document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-markdown="README.md"
+               data-separator="^\n---\n$"
+               data-separator-vertical="^\n--\n$"
+               data-separator-notes="^Notes:">
+      </section>
+    </div>
+  </div>
+
+  <script src="presentation/dependencies/revealjs-3.2.0/head.min.js"></script>
+  <script src="presentation/dependencies/revealjs-3.2.0/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      width: 1024,
+      height: 768,
+      transition: 'linear',
+      dependencies: [
+        { src: 'presentation/dependencies/revealjs-3.2.0/marked.min.js', 
+        condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'presentation/dependencies/revealjs-3.2.0/markdown.min.js', 
+        condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'presentation/dependencies/revealjs-3.2.0/notes.min.js', 
+        async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'presentation/dependencies/revealjs-3.2.0/highlight.min.js', 
+        async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+    });
+  </script>
+</body>
+</html>

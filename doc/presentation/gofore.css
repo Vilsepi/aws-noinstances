@@ -1,0 +1,128 @@
+/*
+GOFORE ORANGE 2015 THEME
+
+This is not a full reveal.js theme, but simple css overrides
+over the default black theme of reveal.js 3.1.0
+
+#FF6013 title orange
+#FF6D37 link orange
+#703322 nav buttons and progress bar
+
+*/ 
+
+
+/* GLOBAL STYLES */
+
+body {
+  background: #111;
+  background-color: #111;
+}
+
+::selection {
+  background: #FF6013;
+}
+
+/* HEADERS */
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {
+  color: #FF6013;
+  text-transform: none;
+}
+
+/* Headings should always use heading color even if they contain links */
+.reveal h1 a, .reveal h2 a, .reveal h3 a, .reveal h4 a, .reveal h5 a {
+  color: #FF6013;
+}
+
+/* H6 is reserved for authors on title slide */
+.reveal h6 {
+  margin: 200px 0 0 13%;
+  text-align: left;
+  text-transform: none;
+  color: #fff;
+  font-weight: normal;
+}
+
+/* OTHER */
+
+.reveal pre {
+  width: 90%;
+  margin: 20px auto;
+  font-size: 0.55em;
+}
+
+.reveal pre code {
+  padding: 15px;
+  background: #040404;
+  color: #f4f4f4;
+  max-height: 500px;
+}
+
+/* LINKS */
+
+.reveal a {
+  color: #FF6D37;
+}
+
+.reveal a:hover {
+  color: #FF6D37;
+}
+
+.reveal .roll span:after {
+  color: #fff;
+  background: #FF6D37;
+}
+
+/* IMAGES */
+
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.04);
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #FF6D37;
+  border-color: #FF6D37;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+
+/* NAVIGATION CONTROLS */
+
+.reveal .controls {
+  right: -4px;
+  bottom: -4px;
+}
+
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+  border-right-color: #703322; }
+
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+  border-left-color: #703322; }
+
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+  border-bottom-color: #703322; }
+
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+  border-top-color: #703322; }
+
+.reveal .controls .navigate-left.enabled:hover {
+  border-right-color: #FF6D37; }
+
+.reveal .controls .navigate-right.enabled:hover {
+  border-left-color: #FF6D37; }
+
+.reveal .controls .navigate-up.enabled:hover {
+  border-bottom-color: #FF6D37; }
+
+.reveal .controls .navigate-down.enabled:hover {
+  border-top-color: #FF6D37; }
+
+/* PROGRESS BAR AND SLIDE NUMBER */
+
+.reveal .progress span {
+  background: #703322;
+}
+
+.reveal .slide-number {
+  color: #d64; }
