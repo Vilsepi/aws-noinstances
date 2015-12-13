@@ -30,8 +30,8 @@ exports.handler = function(event, context) {
   console.log('Hello CloudWatch logs!');
 
   var response = {
-    'lambdaEvent': event,
-    'lambdaContext': context,
+    'lambdaInputEvent': event,
+    'lambdaExecutionContext': context,
     'lambdaRemainingMillis': context.getRemainingTimeInMillis()
   };
   
@@ -56,21 +56,23 @@ exports.handler = function(event, context) {
 
 --
 
+[![Lambda use cases](images/lambda_usecases.png)](http://www.slideshare.net/AmazonWebServices/arc308-the-serverless-company-using-aws-lambda)
+
+--
+
 ## [Pricing](https://aws.amazon.com/lambda/pricing/)
 
 - $0.20 per million requests (first million free per month)
 - $0.00001667 per GB-second based on execution time and memory allocated (400,000 GB-seconds free per month)
 - Example: 128 MB, 30 million executions, 200 ms duration = $11.63 per month
 
---
-
-## Lambda experiences
-
-- Updating lambdas via cloudformation seems really slow. Maybe just wrap AWS CLI tools instead?
-
 ---
 
 # API Gateway
+
+--
+
+![API gateway](images/API_Call_Flow_v2.jpg)
 
 --
 
@@ -114,6 +116,12 @@ exports.handler = function(event, context) {
 
 [SquirrelBin: A Serverless Microservice Using AWS Lambda](https://aws.amazon.com/blogs/compute/the-squirrelbin-architecture-a-serverless-microservice-using-aws-lambda/)
 
+--
+
+![AWS Serverless Multi-Tier Architectures](images/serverless_arch.png)
+
+[AWS Serverless Multi-Tier Architectures whitepaper](https://d0.awsstatic.com/whitepapers/AWS_Serverless_Multi-Tier_Archiectures.pdf)
+
 ---
 
 ## Things to consider
@@ -122,7 +130,7 @@ exports.handler = function(event, context) {
 - Consider several URL paths and their HTTP Verbs. How many Lambda functions?
 - How much things should be done in API Gateway (schemas validation)?
 - Is the API cache worth it?
-- [serverless](https://github.com/serverless/serverless) and [fluct](https://github.com/fluct/fluct)
+- Node.js frameworks [serverless](https://github.com/serverless/serverless) and [fluct](https://github.com/fluct/fluct)
 
 --
 
@@ -138,4 +146,8 @@ exports.handler = function(event, context) {
 
 ## References
 
-- [Build and Manage Your APIs with Amazon API Gateway](http://www.slideshare.net/AmazonWebServices/build-and-manage-your-apis-with-amazon-api-gateway)
+- [Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html) and [API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) developer guides
+- Node.js frameworks [serverless](https://github.com/serverless/serverless) and [fluct](https://github.com/fluct/fluct)
+- [Build and Manage Your APIs](http://www.slideshare.net/AmazonWebServices/build-and-manage-your-apis-with-amazon-api-gateway)
+- [SquirrelBin: A Serverless Microservice](https://aws.amazon.com/blogs/compute/the-squirrelbin-architecture-a-serverless-microservice-using-aws-lambda/)
+- [Create a serverless RESTful API](https://cloudonaut.io/create-a-serverless-restful-api-with-api-gateway-swagger-lambda-and-dynamodb/)
