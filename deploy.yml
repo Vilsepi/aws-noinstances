@@ -79,16 +79,18 @@
   - name: Reconfigure functions to use the latest code
     command: >
       aws lambda update-function-code 
+      --region {{ aws_region }}
       --function-name {{ lambda_stack.stack_outputs.get(item) }}
       --s3-bucket {{ s3_artifactory_bucket }} 
       --s3-key artifacts/{{ item }}.zip
     with_items: functions
 
-  # Lambda DynamoDB Stream handler setup
+  # Lambda DynamoDB Stream handler
 
   - name: Create DynamoDB Stream
     command: >
       aws dynamodb update-table 
+      --region {{ aws_region }}
       --table-name {{ deployment_id }}
       --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
     register: update_stream
@@ -97,6 +99,7 @@
   - name: Describe DynamoDB table
     command: >
       aws dynamodb describe-table 
+      --region {{ aws_region }}
       --table-name {{ deployment_id }}
     register: stream_output
 
@@ -107,6 +110,7 @@
   - name: Configure Lambda function to read DynamoDB Stream
     command: >
       aws lambda create-event-source-mapping 
+      --region {{ aws_region }}
       --function-name {{ lambda_stack.stack_outputs.stalker }}
       --event-source-arn {{ dynamo_config.Table.LatestStreamArn }}
       --enabled
@@ -123,6 +127,7 @@
   - name: Create interfaces
     command: >
       ./aws-api-import.sh
+      --region {{ aws_region }}
       --profile {{ aws_cli_profile }}
       --create 
       --deploy {{ interface_stage }}
@@ -141,6 +146,7 @@
   - name: Update interface
     command: >
       ./aws-api-import.sh
+      --region {{ aws_region }}
       --profile {{ aws_cli_profile }}
       --update {{ interface_id }}
       --deploy {{ interface_stage }}
