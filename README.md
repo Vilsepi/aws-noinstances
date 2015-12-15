@@ -18,8 +18,6 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 ## Getting started
 
-**Prerequisites**
-
 Install prerequisites [Ansible](https://github.com/ansible/ansible) and [AWS CLI](https://github.com/aws/aws-cli):
 
     sudo pip install awscli ansible
@@ -31,13 +29,13 @@ Install [Amazon API Gateway Importer](https://github.com/awslabs/aws-apigateway-
     cd aws-apigateway-importer
     mvn assembly:assembly
 
-Then set some secret variables:
+Set your account-related variables:
 
     cd ../../src/config/
     cp secrets_example.yml secrets.yml
     nano secrets.yml
 
-Finally export you IAM credentials and run deployment:
+Finally export your IAM credentials as environment variables and run deployment:
 
     cd ../../
     . tools/export_env_variables.sh credentials.csv
