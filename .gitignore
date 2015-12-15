@@ -6,6 +6,7 @@ credentials.csv
 temp/
 build/
 aws-apigateway-swagger-importer
+aws-apigateway-importer
 secrets.yml
 test.yml
 test-ansible-parsing.yml

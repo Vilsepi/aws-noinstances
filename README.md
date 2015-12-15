@@ -20,14 +20,15 @@ With these, we will have the compute infrastructure for our REST server. Add som
 
 **Prerequisites**
 
-- [Ansible](https://github.com/ansible/ansible)
-- [AWS CLI](https://github.com/aws/aws-cli)
+Install prerequisites [Ansible](https://github.com/ansible/ansible) and [AWS CLI](https://github.com/aws/aws-cli):
 
-First install [Swagger Importer](https://github.com/awslabs/aws-apigateway-swagger-importer) under `tools/`:
+    sudo pip install awscli ansible
+
+Install [Amazon API Gateway Importer](https://github.com/awslabs/aws-apigateway-importer) under `tools/`:
 
     cd tools
-    git clone https://github.com/awslabs/aws-apigateway-swagger-importer
-    cd aws-apigateway-swagger-importer
+    git clone https://github.com/awslabs/aws-apigateway-importer
+    cd aws-apigateway-importer
     mvn assembly:assembly
 
 Then set some secret variables:
@@ -39,8 +40,10 @@ Then set some secret variables:
 Finally export you IAM credentials and run deployment:
 
     cd ../../
-    . tools/export_env_variables.sh
+    . tools/export_env_variables.sh credentials.csv
     ./deploy.sh
+
+### Advanced
 
 Once you have deployed the stack, you can shave off a second or two (*yeaaah!*) from deploying the lambda functions with:
 
@@ -48,4 +51,4 @@ Once you have deployed the stack, you can shave off a second or two (*yeaaah!*) 
 
 ### Defining APIs
 
-Unfortunately, as of September 5th 2015, CloudFormation and Boto do not support API Gateway (see [thread](https://forums.aws.amazon.com/thread.jspa?threadID=192530) and [issue](https://github.com/boto/botocore/issues/607)). However AWS Labs has published an [import tool](https://github.com/awslabs/aws-apigateway-swagger-importer) that allows us to define APIs with [Swagger](http://swagger.io/). Swagger in turn provides an [editor](http://editor.swagger.io/#/) for creating API specifications.
+Unfortunately, as of September 5th 2015, CloudFormation and Boto do not support API Gateway (see [thread](https://forums.aws.amazon.com/thread.jspa?threadID=192530) and [issue](https://github.com/boto/botocore/issues/607)). However AWS Labs has published an [import tool](https://github.com/awslabs/aws-apigateway-importer) that allows us to define APIs with [Swagger](http://swagger.io/). Swagger in turn provides an [editor](http://editor.swagger.io/#/) for creating API specifications.
