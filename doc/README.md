@@ -12,6 +12,12 @@ Pay for only the compute time you consume.
 
 --
 
+![AWS Serverless Multi-Tier Architectures](images/serverless_arch.png)
+
+[AWS Serverless Multi-Tier Architecture](https://d0.awsstatic.com/whitepapers/AWS_Serverless_Multi-Tier_Archiectures.pdf)
+
+--
+
 ## Configuration
 
 - Name and description
@@ -45,14 +51,9 @@ exports.handler = function(event, context) {
 
 ## Invocation
 
-- Invocation types: Event (async, no response) and Request-Response (sync, response) http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html, Manual, Scheduled
-
-- API Gateway uses Lambda with RR model
-
-- Also related [Push vs Pull](http://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html)
-
-- Event sources (S3, SNS, DynamoDB, Kinesis, Cognito Sync Trigger, Alexa Skills kit)
-- API Gateway endpoints
+- Synchronous **[Request-Response](http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html)** from API Gateway or manually from AWS console
+- Asynchronous **[Event](http://docs.aws.amazon.com/lambda/latest/dg/intro-core-components.html)** from other AWS services (S3, SNS, DynamoDB, Kinesis, Cognito Sync Trigger, AWS IoT, CloudWatch logs, Scheduled event). Lambda does not send response to events.
+- For some event sources, Lambda must poll it ([pull](http://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html) model). Some event sources directly invoke the Lambda function ([push](http://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html) model).
 
 --
 
